@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import Airports from './Airports.js';
+
 class Cities extends Component {
   constructor(){
     super();
@@ -9,6 +11,7 @@ class Cities extends Component {
       selectedOption: ''
     };
 
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
@@ -20,8 +23,6 @@ class Cities extends Component {
         // console.log('cities ', cities);
         self.setState({ cities: cities });
       });
-
-      this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange = event => {
@@ -30,27 +31,21 @@ class Cities extends Component {
     });
   };
 
-  handleSubmit = event => {
-    console.log(`Option selected:`, this.state.selectedOption);
-    event.preventDefault();
-  }
-
   render() {
       return (
         <>
-        <form  onSubmit={this.handleSubmit}>
-            <label className="offset-md-5" style={{marginTop: 30}}>
-                Select a City :
+        <label className="offset-md-5" style={{marginTop: 30, color: '#2a89d1'}}>
+            Select a City :
 
-                <select>
-                    {this.state.cities.map(city => (
-                        <option key={city.city_name} value={city.city_name}>{city.city_name}</option>
-                    ))}
-                </select>
-            </label>
-
-            <input type="submit" value="Submit" className="btn-info offset-md-1" />
-        </form>
+            <select value={this.state.selectedOption} onChange={this.handleChange} style={{color: '#2a89d1'}}>
+                <option>select</option>
+                {this.state.cities.map(city => (
+                    <option key={city.city_name} value={city.city_name}>{city.city_name}</option>
+                ))}
+            </select>
+        </label>
+        
+        <Airports city={this.state.selectedOption}/>
         </>
       );
   }
